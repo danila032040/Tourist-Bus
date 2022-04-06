@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TouristBusApp.Models
 {
@@ -35,5 +36,26 @@ namespace TouristBusApp.Models
         /// </summary>
         public List<TourPoint> TourPoints { get; set; }
 
+        protected bool Equals(Tour other)
+        {
+            return Id == other.Id && 
+                   Name == other.Name && 
+                   Bus.Equals(other.Bus) && 
+                   Departure.Equals(other.Departure) && 
+                   Arrival.Equals(other.Arrival) && 
+                   TourPoints.SequenceEqual(other.TourPoints);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((Tour) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, Bus, Departure, Arrival, TourPoints);
+        }
     }
 }

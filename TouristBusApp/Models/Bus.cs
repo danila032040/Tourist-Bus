@@ -1,3 +1,5 @@
+using System;
+
 namespace TouristBusApp.Models
 {
     public class Bus : IBaseEntity
@@ -17,5 +19,21 @@ namespace TouristBusApp.Models
         /// </summary>
         public int Capacity { get; set; }
 
+        protected bool Equals(Bus other)
+        {
+            return Id == other.Id && Number == other.Number && Capacity == other.Capacity;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((Bus) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Number, Capacity);
+        }
     }
 }

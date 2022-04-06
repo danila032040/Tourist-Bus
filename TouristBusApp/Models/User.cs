@@ -1,3 +1,5 @@
+using System;
+
 namespace TouristBusApp.Models
 {
     public class User : IBaseEntity
@@ -25,5 +27,25 @@ namespace TouristBusApp.Models
         /// функционала пользователю в зависимости от его роли
         /// </remarks>
         public UserRole Role { get; set; }
+
+        protected bool Equals(User other)
+        {
+            return Id == other.Id && 
+                   Login == other.Login && 
+                   Password == other.Password && 
+                   Role == other.Role;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((User) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Login, Password, (int) Role);
+        }
     }
 }
