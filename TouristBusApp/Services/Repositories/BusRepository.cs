@@ -9,6 +9,12 @@ namespace TouristBusApp.Services.Repositories
 {
     public class BusRepository : IRepository<Bus>
     {
+        private readonly string _resourceName;
+
+        public BusRepository(string resourceName)
+        {
+            _resourceName = resourceName;
+        }
         public void Create(Bus entity)
         {
             throw new AccessViolationException("Нельзя создавать новые автобусы!");
@@ -16,9 +22,8 @@ namespace TouristBusApp.Services.Repositories
 
         public IEnumerable<Bus> Read()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "Resources/Busses.txt";
-            using Stream stream = assembly.GetManifestResourceStream(resourceName);
+            Assembly assembly = Assembly.GetCallingAssembly();
+            using Stream stream = assembly.GetManifestResourceStream(_resourceName);
             using StreamReader reader = new StreamReader(stream);
             
             string result = reader.ReadToEnd();

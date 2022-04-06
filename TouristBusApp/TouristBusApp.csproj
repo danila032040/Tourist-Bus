@@ -15,4 +15,9 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\Busses.json" />
+      <EmbeddedResource Include="Resources\Busses.json" />
+    </ItemGroup>
+
 </Project>
