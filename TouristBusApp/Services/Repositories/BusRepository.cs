@@ -23,7 +23,7 @@ namespace TouristBusApp.Services.Repositories
         public IEnumerable<Bus> Read()
         {
             Assembly assembly = Assembly.GetCallingAssembly();
-            using Stream stream = assembly.GetManifestResourceStream(_resourceName);
+            using Stream stream = assembly.GetManifestResourceStream(assembly.GetName().Name+ "." + _resourceName);
             using StreamReader reader = new StreamReader(stream);
             
             string result = reader.ReadToEnd();
