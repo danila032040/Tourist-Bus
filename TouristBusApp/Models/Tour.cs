@@ -34,16 +34,16 @@ namespace TouristBusApp.Models
         /// <summary>
         /// Маршрут тура, состоящий из нескольких точек тура
         /// </summary>
-        public List<TourPoint> TourPoints { get; set; }
+        public List<int> TourPointIds { get; set; }
 
         protected bool Equals(Tour other)
         {
             return Id == other.Id && 
                    Name == other.Name && 
-                   Bus.Equals(other.Bus) && 
+                   ((Bus == null && other.Bus == null) || (Bus.Equals(other.Bus))) && 
                    Departure.Equals(other.Departure) && 
                    Arrival.Equals(other.Arrival) && 
-                   TourPoints.SequenceEqual(other.TourPoints);
+                   ((TourPointIds == null && other.TourPointIds == null) || TourPointIds.SequenceEqual(other.TourPointIds));
         }
 
         public override bool Equals(object? obj)
@@ -55,7 +55,7 @@ namespace TouristBusApp.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Name, Bus, Departure, Arrival, TourPoints);
+            return HashCode.Combine(Id, Name, Bus, Departure, Arrival, TourPointIds);
         }
     }
 }

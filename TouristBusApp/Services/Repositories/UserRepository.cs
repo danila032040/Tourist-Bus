@@ -13,7 +13,7 @@ namespace TouristBusApp.Services.Repositories
 
         public UserRepository(string fileName)
         {
-            _fileName = $@"{Directory.GetCurrentDirectory()}\{fileName}";
+            _fileName = fileName;
         }
         public void Create(User entity)
         {

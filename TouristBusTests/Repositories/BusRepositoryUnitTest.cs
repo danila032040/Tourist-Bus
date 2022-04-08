@@ -7,9 +7,8 @@ using Newtonsoft.Json;
 using TouristBusApp.Models;
 using TouristBusApp.Services.Repositories;
 using Xunit;
-using Xunit.Sdk;
 
-namespace TouristBustTests.Repositories
+namespace TouristBusTests.Repositories
 {
     public class BusRepositoryUnitTest
     {

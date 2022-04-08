@@ -1,7 +1,14 @@
+using System;
+
 namespace TouristBusApp.Models
 {
-    public class TourPoint
+    public class TourPoint : IBaseEntity
     {
+        /// <summary>
+        /// Уникальный идентификатор точки тура
+        /// </summary>
+        public int Id { get; set; }
+        
         /// <summary>
         /// Название точки тура
         /// </summary>
@@ -9,7 +16,7 @@ namespace TouristBusApp.Models
 
         protected bool Equals(TourPoint other)
         {
-            return Name == other.Name;
+            return Id == other.Id && Name == other.Name;
         }
 
         public override bool Equals(object? obj)
@@ -21,7 +28,8 @@ namespace TouristBusApp.Models
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            return HashCode.Combine(Id, Name);
         }
+
     }
 }
