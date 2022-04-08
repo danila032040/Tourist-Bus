@@ -2,11 +2,13 @@
   {
     "Id" : "1",
     "Login" : "admin",
-    "Password" : "admin"
+    "Password" : "admin",
+    "Role": "0"
   },
   {
     "Id" : "2",
     "Login" : "test",
-    "Password" : "1234"
+    "Password" : "1234",
+    "Role" : "1"
   }
 ]
