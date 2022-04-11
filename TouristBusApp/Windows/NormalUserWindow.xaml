@@ -10,5 +10,33 @@
         FontSize="24"
         FontFamily="Times New Roman"
         WindowStartupLocation="CenterScreen">
-    <Grid />
+    <DockPanel
+        LastChildFill="True">
+        <Grid 
+            DockPanel.Dock="Top"
+            Height="75" >
+            <TextBlock Text="Добро пожаловать"
+                       FontSize="48"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+            <Button Content="Выйти"
+                    Width="250" 
+                    Height="45" 
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Margin="5"
+                    Click="ButtonSignOut_OnClick"/>
+        </Grid>
+        <Border 
+            DockPanel.Dock="Top" 
+            Height="1" 
+            Background="Black"/>
+        <TabControl>
+            <TabItem Header="Туры"></TabItem>
+            <TabItem Header="Автобусы"></TabItem>
+            <TabItem Header="Точки маршрутов туров"></TabItem>
+            <TabItem Header="Дороги"></TabItem>
+        </TabControl>
+    </DockPanel>
 </Window>
