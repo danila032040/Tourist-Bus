@@ -1,0 +1,54 @@
+<Window x:Class="TouristBusApp.Windows.AuthenticationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="Окно аутентификации"
+        MinHeight="900"
+        MinWidth="1600"
+        FontSize="24"
+        FontFamily="Times New Roman"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid
+            Margin="5"
+            Height="300"
+            Width="1000"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Text="Для продолжения необходимо авторизироваться"
+                FontSize="42"
+                TextAlignment="Center"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Bold" />
+            <Button
+                Grid.Column="0"
+                Grid.Row="1"
+                x:Name="ButtonSignIn"
+                Content="Войти"
+                Margin="5"
+                Click="ButtonSignIn_OnClick" />
+            <Button
+                Grid.Column="1"
+                Grid.Row="1"
+                x:Name="ButtonRegister"
+                Content="Регистрация"
+                Margin="5"
+                Click="ButtonRegister_OnClick" />
+        </Grid>
+    </Grid>
+</Window>

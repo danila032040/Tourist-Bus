@@ -15,6 +15,7 @@ namespace TouristBusApp.Services.Repositories
         {
             _resourceName = resourceName;
         }
+
         public void Create(Bus entity)
         {
             throw new AccessViolationException("Нельзя создавать новые автобусы!");
@@ -23,11 +24,11 @@ namespace TouristBusApp.Services.Repositories
         public IEnumerable<Bus> Read()
         {
             Assembly assembly = Assembly.GetCallingAssembly();
-            using Stream stream = assembly.GetManifestResourceStream(assembly.GetName().Name+ "." + _resourceName);
-            using StreamReader reader = new StreamReader(stream);
-            
+            using Stream stream = assembly.GetManifestResourceStream(assembly.GetName().Name + "." + _resourceName);
+            using StreamReader reader = new(stream);
+
             string result = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject<IEnumerable<Bus>>(result);
+            return JsonConvert.DeserializeObject<IEnumerable<Bus>>(result) ?? new List<Bus>();
         }
 
         public void Update(Bus entity)

@@ -5,14 +5,14 @@ namespace TouristBusApp.Models
     public class TourPoint : IBaseEntity
     {
         /// <summary>
-        /// Уникальный идентификатор точки тура
-        /// </summary>
-        public int Id { get; set; }
-        
-        /// <summary>
-        /// Название точки тура
+        ///     Название точки тура
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        ///     Уникальный идентификатор точки тура
+        /// </summary>
+        public int Id { get; set; }
 
         protected bool Equals(TourPoint other)
         {
@@ -23,13 +23,12 @@ namespace TouristBusApp.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((TourPoint) obj);
+            return obj.GetType() == GetType() && Equals((TourPoint) obj);
         }
 
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Name);
         }
-
     }
 }

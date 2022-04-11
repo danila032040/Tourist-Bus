@@ -24,7 +24,7 @@ namespace TouristBusTests.Repositories
                 Capacity = 100
             }));
         }
-        
+
         [Fact]
         public void ReadBusses_CorrectDataFromResource()
         {
@@ -35,17 +35,15 @@ namespace TouristBusTests.Repositories
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             using Stream stream = assembly.GetManifestResourceStream("TouristBusTests." + resourceName);
-            using StreamReader streamReader = new StreamReader(stream);
+            using StreamReader streamReader = new(stream);
             var bussesFromJson = JsonConvert.DeserializeObject<IEnumerable<Bus>>(streamReader.ReadToEnd());
 
             Assert.Equal(bussesFromJson.Count(), bussesFromRep.Count());
 
-            for (int i = 0; i < bussesFromJson.Count(); ++i)
-            {
+            for (var i = 0; i < bussesFromJson.Count(); ++i)
                 Assert.Equal(bussesFromJson.ElementAt(i), bussesFromRep.ElementAt(i));
-            }
         }
-        
+
         [Fact]
         public void UpdateBus_ThrowsAccessViolationException()
         {
@@ -59,7 +57,7 @@ namespace TouristBusTests.Repositories
                 Capacity = 100
             }));
         }
-        
+
         [Fact]
         public void DeleteBus_ThrowsAccessViolationException()
         {
@@ -68,6 +66,5 @@ namespace TouristBusTests.Repositories
 
             Assert.Throws<AccessViolationException>(() => rep.Delete(1));
         }
-
     }
 }

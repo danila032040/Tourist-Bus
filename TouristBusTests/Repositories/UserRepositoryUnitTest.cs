@@ -13,17 +13,14 @@ namespace TouristBusTests.Repositories
         [Fact]
         public void CreateUser_CorrectCreation()
         {
-
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
                               @"\Data\Users.json";
             string initialText = File.ReadAllText(fileName);
             try
             {
-
-
                 IRepository<User> rep = new UserRepository(fileName);
 
-                User user = new User
+                User user = new()
                 {
                     Login = "admin",
                     Password = "admin"
@@ -33,7 +30,7 @@ namespace TouristBusTests.Repositories
                 string json = File.ReadAllText(fileName);
                 var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
 
-                Assert.Contains(usersInFile, (u) => u.Equals(user));
+                Assert.Contains(usersInFile, u => u.Equals(user));
             }
             finally
             {
@@ -53,16 +50,12 @@ namespace TouristBusTests.Repositories
             var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
 
             Assert.Equal(usersInFile.Count, usersInRep.Count);
-            for (int i=0; i<usersInFile.Count; ++i)
-            {
-                Assert.Equal(usersInFile[0], usersInRep[0]);
-            }
+            for (var i = 0; i < usersInFile.Count; ++i) Assert.Equal(usersInFile[0], usersInRep[0]);
         }
-        
+
         [Fact]
         public void UpdateUser_CorrectUpdating()
         {
-
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
                               @"\Data\Users.json";
             string initialText = File.ReadAllText(fileName);
@@ -77,34 +70,32 @@ namespace TouristBusTests.Repositories
                 string json = File.ReadAllText(fileName);
                 var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
 
-                Assert.Contains(usersInFile, (u) => u.Equals(user));
+                Assert.Contains(usersInFile, u => u.Equals(user));
             }
             finally
             {
                 File.WriteAllText(fileName, initialText);
             }
         }
-        
+
         [Fact]
         public void DeleteUser_CorrectDelete()
         {
-
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
                               @"\Data\Users.json";
             string initialText = File.ReadAllText(fileName);
-            
+
             try
             {
-
                 IRepository<User> rep = new UserRepository(fileName);
 
-                int idToDelete = rep.Read().FirstOrDefault((user) => user.Login == "test").Id;
+                int idToDelete = rep.Read().FirstOrDefault(user => user.Login == "test").Id;
                 rep.Delete(idToDelete);
 
                 string json = File.ReadAllText(fileName);
                 var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
 
-                Assert.DoesNotContain(usersInFile, (u) => u.Id == idToDelete);
+                Assert.DoesNotContain(usersInFile, u => u.Id == idToDelete);
             }
             finally
             {

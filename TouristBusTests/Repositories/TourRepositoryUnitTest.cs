@@ -21,7 +21,7 @@ namespace TouristBusTests.Repositories
             {
                 IRepository<Tour> rep = new TourRepository(fileName);
 
-                Tour Tour = new Tour
+                Tour Tour = new()
                 {
                     Name = "TheBestTours",
                     Departure = DateTime.Now,
@@ -33,7 +33,7 @@ namespace TouristBusTests.Repositories
                 string json = File.ReadAllText(fileName);
                 var ToursInFile = JsonConvert.DeserializeObject<List<Tour>>(json);
 
-                Assert.Contains(ToursInFile, (u) => u.Equals(Tour));
+                Assert.Contains(ToursInFile, u => u.Equals(Tour));
             }
             finally
             {
@@ -53,10 +53,7 @@ namespace TouristBusTests.Repositories
             var ToursInFile = JsonConvert.DeserializeObject<List<Tour>>(json);
 
             Assert.Equal(ToursInFile.Count, ToursInRep.Count);
-            for (int i = 0; i < ToursInFile.Count; ++i)
-            {
-                Assert.Equal(ToursInFile[0], ToursInRep[0]);
-            }
+            for (var i = 0; i < ToursInFile.Count; ++i) Assert.Equal(ToursInFile[0], ToursInRep[0]);
         }
 
         [Fact]
@@ -76,7 +73,7 @@ namespace TouristBusTests.Repositories
                 string json = File.ReadAllText(fileName);
                 var ToursInFile = JsonConvert.DeserializeObject<List<Tour>>(json);
 
-                Assert.Contains(ToursInFile, (u) => u.Equals(Tour));
+                Assert.Contains(ToursInFile, u => u.Equals(Tour));
             }
             finally
             {
@@ -95,13 +92,13 @@ namespace TouristBusTests.Repositories
             {
                 IRepository<Tour> rep = new TourRepository(fileName);
 
-                int idToDelete = rep.Read().FirstOrDefault((Tour) => Tour.Name == "test").Id;
+                int idToDelete = rep.Read().FirstOrDefault(Tour => Tour.Name == "test").Id;
                 rep.Delete(idToDelete);
 
                 string json = File.ReadAllText(fileName);
                 var ToursInFile = JsonConvert.DeserializeObject<List<Tour>>(json);
 
-                Assert.DoesNotContain(ToursInFile, (u) => u.Id == idToDelete);
+                Assert.DoesNotContain(ToursInFile, u => u.Id == idToDelete);
             }
             finally
             {

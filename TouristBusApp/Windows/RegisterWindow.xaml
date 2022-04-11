@@ -3,11 +3,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:TouristBusApp.Windows"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="450" Width="800"
+        Height="600"
+        Width="350"
+        FontSize="24"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
         WindowStartupLocation="CenterOwner">
     <Grid>
-        
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    MinWidth="250">
+            <StackPanel Margin="5 5 5 25">
+                <TextBlock Text="Логин" TextAlignment="Center" />
+                <TextBox x:Name="TextBoxLogin"
+                         Margin="5" />
+            </StackPanel>
+            <StackPanel Margin="5 5 5 25">
+                <TextBlock Text="Пароль" TextAlignment="Center" />
+                <PasswordBox
+                    x:Name="PasswordBox"
+                    Margin="5"
+                    PasswordChar="*" />
+            </StackPanel>
+            <Button Content="Зарегистрироваться" MinHeight="50" Margin="5 50 5 5" Click="ButtonRegister_OnClick" />
+        </StackPanel>
     </Grid>
 </Window>

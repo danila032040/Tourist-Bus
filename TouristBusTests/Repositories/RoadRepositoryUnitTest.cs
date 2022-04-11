@@ -8,20 +8,19 @@ using Xunit;
 
 namespace TouristBusTests.Repositories
 {
-    public class TourRoadRepositoryUnitTest
+    public class RoadRepositoryUnitTest
     {
         [Fact]
-        public void CreateTourRoad_CorrectCreation()
+        public void CreateRoad_CorrectCreation()
         {
-
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
-                              @"\Data\TourRoads.json";
+                              @"\Data\Roads.json";
             string initialText = File.ReadAllText(fileName);
             try
             {
-                IRepository<Road> rep = new TourRoadRepository(fileName);
+                IRepository<Road> rep = new RoadRepository(fileName);
 
-                Road road = new Road
+                Road road = new()
                 {
                     Name = "C3",
                     DepartureTourPointId = 0,
@@ -31,9 +30,9 @@ namespace TouristBusTests.Repositories
                 rep.Create(road);
 
                 string json = File.ReadAllText(fileName);
-                var TourRoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
+                var RoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
 
-                Assert.Contains(TourRoadsInFile, (u) => u.Equals(road));
+                Assert.Contains(RoadsInFile, u => u.Equals(road));
             }
             finally
             {
@@ -42,69 +41,63 @@ namespace TouristBusTests.Repositories
         }
 
         [Fact]
-        public void ReadTourRoads_CorrectReading()
+        public void ReadRoads_CorrectReading()
         {
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
-                              @"\Data\TourRoads.json";
-            IRepository<Road> rep = new TourRoadRepository(fileName);
+                              @"\Data\Roads.json";
+            IRepository<Road> rep = new RoadRepository(fileName);
 
-            List<Road> TourRoadsInRep = rep.Read().ToList();
+            List<Road> RoadsInRep = rep.Read().ToList();
             string json = File.ReadAllText(fileName);
-            var TourRoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
+            var RoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
 
-            Assert.Equal(TourRoadsInFile.Count, TourRoadsInRep.Count);
-            for (int i=0; i<TourRoadsInFile.Count; ++i)
-            {
-                Assert.Equal(TourRoadsInFile[0], TourRoadsInRep[0]);
-            }
+            Assert.Equal(RoadsInFile.Count, RoadsInRep.Count);
+            for (var i = 0; i < RoadsInFile.Count; ++i) Assert.Equal(RoadsInFile[0], RoadsInRep[0]);
         }
-        
-        [Fact]
-        public void UpdateTourRoad_CorrectUpdating()
-        {
 
+        [Fact]
+        public void UpdateRoad_CorrectUpdating()
+        {
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
-                              @"\Data\TourRoads.json";
+                              @"\Data\Roads.json";
             string initialText = File.ReadAllText(fileName);
             try
             {
-                IRepository<Road> rep = new TourRoadRepository(fileName);
+                IRepository<Road> rep = new RoadRepository(fileName);
 
                 Road road = rep.Read().ElementAt(0);
                 road.DistanceBetweenTourPoints = 228;
                 rep.Update(road);
 
                 string json = File.ReadAllText(fileName);
-                var TourRoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
+                var RoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
 
-                Assert.Contains(TourRoadsInFile, (u) => u.Equals(road));
+                Assert.Contains(RoadsInFile, u => u.Equals(road));
             }
             finally
             {
                 File.WriteAllText(fileName, initialText);
             }
         }
-        
-        [Fact]
-        public void DeleteTourRoad_CorrectDelete()
-        {
 
+        [Fact]
+        public void DeleteRoad_CorrectDelete()
+        {
             string fileName = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName +
-                              @"\Data\TourRoads.json";
+                              @"\Data\Roads.json";
             string initialText = File.ReadAllText(fileName);
-            
+
             try
             {
+                IRepository<Road> rep = new RoadRepository(fileName);
 
-                IRepository<Road> rep = new TourRoadRepository(fileName);
-
-                int idToDelete = rep.Read().FirstOrDefault((TourRoad) => TourRoad.Name == "A1").Id;
+                int idToDelete = rep.Read().FirstOrDefault(Road => Road.Name == "A1").Id;
                 rep.Delete(idToDelete);
 
                 string json = File.ReadAllText(fileName);
-                var TourRoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
+                var RoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
 
-                Assert.DoesNotContain(TourRoadsInFile, (u) => u.Id == idToDelete);
+                Assert.DoesNotContain(RoadsInFile, u => u.Id == idToDelete);
             }
             finally
             {

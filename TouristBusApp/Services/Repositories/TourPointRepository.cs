@@ -15,46 +15,41 @@ namespace TouristBusApp.Services.Repositories
         {
             _fileName = fileName;
         }
+
         public void Create(TourPoint entity)
         {
-            string json = File.ReadAllText(_fileName);
-            var TourPointsInFile = JsonConvert.DeserializeObject<List<TourPoint>>(json);
+            List<TourPoint> tourPointsInFile = Read().ToList();
 
-            while(TourPointsInFile.Any(t=>t.Id == entity.Id)) entity.Id = new Random().Next();
-            
-            TourPointsInFile.Add(entity);
-            json = JsonConvert.SerializeObject(TourPointsInFile);
-            File.WriteAllText(_fileName, json);
+            while (tourPointsInFile.Any(t => t.Id == entity.Id)) entity.Id = new Random().Next();
+
+            tourPointsInFile.Add(entity);
+            File.WriteAllText(_fileName, JsonConvert.SerializeObject(tourPointsInFile));
         }
 
         public IEnumerable<TourPoint> Read()
         {
             string json = File.ReadAllText(_fileName);
-            return JsonConvert.DeserializeObject<IEnumerable<TourPoint>>(json);
+            return JsonConvert.DeserializeObject<IEnumerable<TourPoint>>(json) ?? new List<TourPoint>();
         }
 
         public void Update(TourPoint entity)
         {
-            string json = File.ReadAllText(_fileName);
-            var TourPointsInFile = JsonConvert.DeserializeObject<List<TourPoint>>(json);
+            List<TourPoint> TourPointsInFile = Read().ToList();
 
             int index = TourPointsInFile.FindIndex(t => t.Id == entity.Id);
 
             TourPointsInFile[index] = entity;
-            
-            json = JsonConvert.SerializeObject(TourPointsInFile);
-            File.WriteAllText(_fileName, json);
+
+            File.WriteAllText(_fileName, JsonConvert.SerializeObject(TourPointsInFile));
         }
 
         public void Delete(int id)
         {
-            string json = File.ReadAllText(_fileName);
-            var TourPointsInFile = JsonConvert.DeserializeObject<List<TourPoint>>(json);
+            List<TourPoint> tourPointsInFile = Read().ToList();
 
-            TourPointsInFile.RemoveAt(TourPointsInFile.FindIndex(t => t.Id == id));
-            
-            json = JsonConvert.SerializeObject(TourPointsInFile);
-            File.WriteAllText(_fileName, json);
+            tourPointsInFile.RemoveAt(tourPointsInFile.FindIndex(t => t.Id == id));
+
+            File.WriteAllText(_fileName, JsonConvert.SerializeObject(tourPointsInFile));
         }
     }
 }

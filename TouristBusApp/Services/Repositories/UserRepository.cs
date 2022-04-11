@@ -15,46 +15,41 @@ namespace TouristBusApp.Services.Repositories
         {
             _fileName = fileName;
         }
+
         public void Create(User entity)
         {
-            string json = File.ReadAllText(_fileName);
-            var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
+            List<User> usersInFile = Read().ToList();
 
-            while(usersInFile.Any(t=>t.Id == entity.Id)) entity.Id = new Random().Next();
-            
+            while (usersInFile.Any(t => t.Id == entity.Id)) entity.Id = new Random().Next();
+
             usersInFile.Add(entity);
-            json = JsonConvert.SerializeObject(usersInFile);
-            File.WriteAllText(_fileName, json);
+            File.WriteAllText(_fileName, JsonConvert.SerializeObject(usersInFile));
         }
 
         public IEnumerable<User> Read()
         {
             string json = File.ReadAllText(_fileName);
-            return JsonConvert.DeserializeObject<IEnumerable<User>>(json);
+            return JsonConvert.DeserializeObject<IEnumerable<User>>(json) ?? new List<User>();
         }
 
         public void Update(User entity)
         {
-            string json = File.ReadAllText(_fileName);
-            var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
+            List<User> usersInFile = Read().ToList();
 
             int index = usersInFile.FindIndex(t => t.Id == entity.Id);
 
             usersInFile[index] = entity;
-            
-            json = JsonConvert.SerializeObject(usersInFile);
-            File.WriteAllText(_fileName, json);
+
+            File.WriteAllText(_fileName, JsonConvert.SerializeObject(usersInFile));
         }
 
         public void Delete(int id)
         {
-            string json = File.ReadAllText(_fileName);
-            var usersInFile = JsonConvert.DeserializeObject<List<User>>(json);
+            List<User> usersInFile = Read().ToList();
 
             usersInFile.RemoveAt(usersInFile.FindIndex(t => t.Id == id));
-            
-            json = JsonConvert.SerializeObject(usersInFile);
-            File.WriteAllText(_fileName, json);
+
+            File.WriteAllText(_fileName, JsonConvert.SerializeObject(usersInFile));
         }
     }
 }
