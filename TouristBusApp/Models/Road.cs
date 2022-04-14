@@ -5,11 +5,6 @@ namespace TouristBusApp.Models
     public class Road : IBaseEntity
     {
         /// <summary>
-        ///     Название дороги
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         ///     Отправная точка тура дороги
         /// </summary>
         public int DepartureTourPointId { get; set; }
@@ -20,9 +15,9 @@ namespace TouristBusApp.Models
         public int ArrivalTourPointId { get; set; }
 
         /// <summary>
-        ///     Длинна дороги
+        ///     Стоимость необходимая, чтобы проехать по этой дороги для тура
         /// </summary>
-        public int DistanceBetweenTourPoints { get; set; }
+        public int Price { get; set; }
 
         /// <summary>
         ///     Уникальный идентификатор дороги
@@ -32,10 +27,9 @@ namespace TouristBusApp.Models
         protected bool Equals(Road other)
         {
             return Id == other.Id &&
-                   Name == other.Name &&
                    DepartureTourPointId == other.DepartureTourPointId &&
                    ArrivalTourPointId == other.ArrivalTourPointId &&
-                   DistanceBetweenTourPoints == other.DistanceBetweenTourPoints;
+                   Price == other.Price;
         }
 
         public override bool Equals(object? obj)
@@ -48,7 +42,7 @@ namespace TouristBusApp.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Name, DepartureTourPointId, ArrivalTourPointId, DistanceBetweenTourPoints);
+            return HashCode.Combine(Id, DepartureTourPointId, ArrivalTourPointId, Price);
         }
     }
 }

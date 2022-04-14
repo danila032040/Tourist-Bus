@@ -1,0 +1,55 @@
+<UserControl x:Class="TouristBusApp.UserControls.EditableTourControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TouristBusApp.UserControls"
+             mc:Ignorable="d" d:DesignWidth="700"
+             FontFamily="Times New Roman"
+             FontSize="24">
+    <Border BorderBrush="Black" BorderThickness="2">
+        <StackPanel>
+            <TextBlock x:Name="TextBlockSaveRequired" Text="Необходимо сохранить!!!" Margin="5" Foreground="Red" FontSize="32" TextAlignment="Center" FontWeight="Bold"/>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
+                    <Label Content="Название тура" />
+                    <TextBox x:Name="TourNameTextBox" Text="Test" TextChanged="TourNameTextBox_OnTextChanged"/>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
+                    <Label Content="Номер автобуса" />
+                    <ComboBox x:Name="BusNumberComboBox" SelectedValue="Test" SelectionChanged="BusNumberComboBox_OnSelectionChanged"/>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
+                    <Label Content="Дата отправления" />
+                    <DatePicker x:Name="DepartureDatePicker" SelectedDateChanged="DepartureDatePicker_OnSelectedDateChanged"/>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
+                    <Label Content="Дата возвращения" />
+                    <DatePicker x:Name="ArrivalDatePicker" SelectedDateChanged="ArrivalDatePicker_OnSelectedDateChanged"/>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
+                    <Label Content="Маршрут" />
+                    <StackPanel x:Name="TourPointsStackPanel">
+                    </StackPanel>
+                    <Button Content="Добавить" Width="150" Click="ButtonAddTourPoint_OnClick"/>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
+                    <Label Content="Итоговая расстояние и цена" />
+                    <TextBlock x:Name="TextBlockPrice" Text="100" FontWeight="UltraBold" FontSize="48"
+                               TextAlignment="Center" Foreground="Red" />
+                </StackPanel>
+            </Border>
+            <Button Content="Сохранить" Click="ButtonSave_OnClick" Margin="5"/>
+        </StackPanel>
+    </Border>
+</UserControl>

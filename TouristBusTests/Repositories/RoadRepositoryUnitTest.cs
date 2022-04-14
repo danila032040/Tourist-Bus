@@ -25,7 +25,7 @@ namespace TouristBusTests.Repositories
                     Name = "C3",
                     DepartureTourPointId = 0,
                     ArrivalTourPointId = 1,
-                    DistanceBetweenTourPoints = 100
+                    Price = 100
                 };
                 rep.Create(road);
 
@@ -66,7 +66,7 @@ namespace TouristBusTests.Repositories
                 IRepository<Road> rep = new RoadRepository(fileName);
 
                 Road road = rep.Read().ElementAt(0);
-                road.DistanceBetweenTourPoints = 228;
+                road.Price = 228;
                 rep.Update(road);
 
                 string json = File.ReadAllText(fileName);

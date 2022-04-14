@@ -79,7 +79,13 @@ namespace TouristBusApp.Resources
                     Password = "admin",
                     Role = UserRole.Admin
                 });
-
+            
+            if (TourPointsRep.Read().Count() == 0 || !TourPointsRep.Read().Any(tp=>tp.Name == "Стартовая станция \"Успех\""))
+                TourPointsRep.Create(new TourPoint
+                {
+                    Name="Стартовая станция \"Успех\""
+                });
+            
             #endregion
         }
 
@@ -117,6 +123,6 @@ namespace TouristBusApp.Resources
         /// <summary>
         ///     Название файла ресурсов, содержащего автобусы
         /// </summary>
-        private string BussesResourceName => "TouristBusApp.Resources.Busses.json";
+        private string BussesResourceName => "Resources.Busses.json";
     }
 }

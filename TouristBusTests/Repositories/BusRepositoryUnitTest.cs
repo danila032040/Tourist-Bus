@@ -52,8 +52,7 @@ namespace TouristBusTests.Repositories
 
             Assert.Throws<AccessViolationException>(() => rep.Update(new Bus
             {
-                Id = 1,
-                Number = "F109",
+                Id = 10,
                 Capacity = 100
             }));
         }

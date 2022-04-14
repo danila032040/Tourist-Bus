@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:userControls="clr-namespace:TouristBusApp.UserControls"
         mc:Ignorable="d"
         Title="Окно администратора"
         MinHeight="900"
@@ -12,30 +13,64 @@
         WindowStartupLocation="CenterScreen">
     <DockPanel
         LastChildFill="True">
-        <Grid 
+        <Grid
             DockPanel.Dock="Top"
-            Height="75" >
+            Height="75">
             <TextBlock Text="Страница администратора"
                        FontSize="48"
                        FontWeight="Bold"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center" />
             <Button Content="Выйти"
-                    Width="250" 
-                    Height="45" 
+                    Width="250"
+                    Height="45"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Margin="5"
-                    Click="ButtonSignOut_OnClick"/>
+                    Click="ButtonSignOut_OnClick" />
         </Grid>
-        <Border 
-            DockPanel.Dock="Top" 
-            Height="1" 
-            Background="Black"/>
-        <TabControl>
-            <TabItem Header="Туры"></TabItem>
-            <TabItem Header="Автобусы"></TabItem>
-            <TabItem Header="Точки маршрутов туров"></TabItem>
+        <Border
+            DockPanel.Dock="Top"
+            Height="1"
+            Background="Black" />
+        <TabControl x:Name="TabControl">
+            <TabItem Header="Туры" Selector.Selected="TourTabItem_OnSelected">
+                <DockPanel LastChildFill="True">
+                    <Button
+                        DockPanel.Dock="Top"
+                        Content="Добавить"
+                        Width="500"
+                        Margin="5"
+                        Click="ButtonAddTour_OnClick" />
+                    <ScrollViewer
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Hidden">
+                        <StackPanel x:Name="ToursStackPanel" />
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Автобусы" Selector.Selected="BusTabItem_OnSelected">
+                <ScrollViewer
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Hidden">
+                    <StackPanel x:Name="BusStackPanel" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Точки маршрутов туров" Selector.Selected="TourPointTabItem_OnSelected">
+                <DockPanel LastChildFill="True">
+                    <Button
+                        DockPanel.Dock="Top"
+                        Content="Добавить"
+                        Width="500"
+                        Margin="5"
+                        Click="ButtonAddTourPoint_OnClick" />
+                    <ScrollViewer
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Hidden">
+                        <StackPanel x:Name="TourPointsStackPanel" />
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
             <TabItem Header="Дороги"></TabItem>
         </TabControl>
     </DockPanel>

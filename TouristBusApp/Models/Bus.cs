@@ -21,7 +21,7 @@ namespace TouristBusApp.Models
 
         protected bool Equals(Bus other)
         {
-            return Id == other.Id && Number == other.Number && Capacity == other.Capacity;
+            return Id == other.Id && Capacity == other.Capacity;
         }
 
         public override bool Equals(object? obj)
@@ -33,7 +33,7 @@ namespace TouristBusApp.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Number, Capacity);
+            return HashCode.Combine(Id, Capacity);
         }
     }
 }
