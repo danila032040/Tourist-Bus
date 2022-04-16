@@ -22,7 +22,6 @@ namespace TouristBusTests.Repositories
 
                 Road road = new()
                 {
-                    Name = "C3",
                     DepartureTourPointId = 0,
                     ArrivalTourPointId = 1,
                     Price = 100
@@ -91,7 +90,7 @@ namespace TouristBusTests.Repositories
             {
                 IRepository<Road> rep = new RoadRepository(fileName);
 
-                int idToDelete = rep.Read().FirstOrDefault(Road => Road.Name == "A1").Id;
+                int idToDelete = rep.Read().FirstOrDefault(Road => Road.Id == 0).Id;
                 rep.Delete(idToDelete);
 
                 string json = File.ReadAllText(fileName);

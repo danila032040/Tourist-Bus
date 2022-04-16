@@ -1,7 +1,6 @@
 [
   {
     "Id": 0,
-    "Name": "A1",
     "DepartureTourPointId": 0,
     "ArrivalTourPointId": 1,
     "DistanceBetweenTourPoints": 100
