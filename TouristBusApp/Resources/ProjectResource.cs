@@ -46,6 +46,11 @@ namespace TouristBusApp.Resources
         /// </summary>
         public readonly IRepository<User> UsersRep;
 
+        /// <summary>
+        /// Репозиторий заявок на туры
+        /// </summary>
+        public readonly IRepository<TourRequest> TourRequestsRep;
+
 
         public ProjectResource()
         {
@@ -56,6 +61,7 @@ namespace TouristBusApp.Resources
             if (!File.Exists(ToursFileName)) File.Create(ToursFileName);
             if (!File.Exists(TourPointsFileName)) File.Create(TourPointsFileName);
             if (!File.Exists(RoadsFileName)) File.Create(RoadsFileName);
+            if (!File.Exists(TourRequestsFileName)) File.Create(TourRequestsFileName);
 
             #endregion
 
@@ -66,6 +72,7 @@ namespace TouristBusApp.Resources
             RoadsRep = new RoadRepository(RoadsFileName);
             TourPointsRep = new TourPointRepository(TourPointsFileName);
             ToursRep = new TourRepository(ToursFileName);
+            TourRequestsRep = new TourRequestRepository(TourRequestsFileName);
             Authentication = new Authentication(UsersRep);
 
             #endregion
@@ -80,7 +87,7 @@ namespace TouristBusApp.Resources
                     Role = UserRole.Admin
                 });
             
-            if (TourPointsRep.Read().Count() == 0 || !TourPointsRep.Read().Any(tp=>tp.Name == "Стартовая станция \"Успех\""))
+            if (TourPointsRep.Read().Count() == 0)
                 TourPointsRep.Create(new TourPoint
                 {
                     Name="Стартовая станция \"Успех\""
@@ -101,28 +108,35 @@ namespace TouristBusApp.Resources
         }
 
         /// <summary>
-        ///     Ссылка на json файл пользователей
+        ///     Путь на json файл пользователей
         /// </summary>
         private string UsersFileName => $@"{Directory.GetCurrentDirectory()}\Data\Users.json";
 
         /// <summary>
-        ///     Ссылка на json файл туров
+        ///     Путь на json файл туров
         /// </summary>
         private string ToursFileName => $@"{Directory.GetCurrentDirectory()}\Data\Tours.json";
 
         /// <summary>
-        ///     Ссылка на json файл точек тура
+        ///     Путь на json файл точек тура
         /// </summary>
         private string TourPointsFileName => $@"{Directory.GetCurrentDirectory()}\Data\TourPoints.json";
 
         /// <summary>
-        ///     Ссылка на json файл дорог
+        ///     Путь на json файл дорог
         /// </summary>
         private string RoadsFileName => $@"{Directory.GetCurrentDirectory()}\Data\TourRoads.json";
+        
+        
+        /// <summary>
+        /// Путь на json файл заявок
+        /// </summary>
+        private string TourRequestsFileName => $@"{Directory.GetCurrentDirectory()}\Data\TourRequests.json";
 
         /// <summary>
         ///     Название файла ресурсов, содержащего автобусы
         /// </summary>
         private string BussesResourceName => "Resources.Busses.json";
+        
     }
 }

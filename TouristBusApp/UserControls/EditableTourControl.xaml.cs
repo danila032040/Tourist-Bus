@@ -16,7 +16,12 @@ namespace TouristBusApp.UserControls
         private bool HasChanges
         {
             get => TextBlockSaveRequired.IsVisible;
-            set => TextBlockSaveRequired.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+            set
+            {
+                TextBlockSaveRequired.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+                if (SaveButton != null) SaveButton.IsEnabled = value;
+                if (_tour != null) RefreshPriceAndRequestsCondition();
+            }
         }
 
         public EditableTourControl(Tour tour)
@@ -48,11 +53,15 @@ namespace TouristBusApp.UserControls
             TourPointsStackPanel.Children.Clear();
             TextBlockPrice.Text = "-";
             if (_tour.TourPointIds == null) return;
-            foreach (TourPoint point in ProjectResource.Instance.TourPointsRep.Read()
-                         .Where(tp => _tour.TourPointIds.Contains(tp.Id)))
+            IEnumerable<TourPoint> tps = ProjectResource.Instance.TourPointsRep.Read();
+            int index = 0;
+            foreach (TourPoint point in
+                     _tour.TourPointIds.Select(tpId => tps.FirstOrDefault(tp => tp.Id == tpId)))
             {
                 ComboBox comboBox = CreateComboBoxForTourPoints();
                 comboBox.SelectedItem = point.Name;
+                comboBox.DataContext = index++;
+                comboBox.SelectionChanged += TourPointComboBox_OnSelectionChanged;
                 Button deleteButton = new Button
                 {
                     Content = "X"
@@ -68,12 +77,20 @@ namespace TouristBusApp.UserControls
                 TourPointsStackPanel.Children.Add(sp);
             }
 
+            RefreshPriceAndRequestsCondition();
+        }
+
+        private void RefreshPriceAndRequestsCondition()
+        {
             int price = 0;
             for (int i = 0; i < _tour.TourPointIds.Count() - 1; ++i)
                 price += ProjectResource.Instance.RoadsRep.Read().Where(r =>
                     r.DepartureTourPointId == _tour.TourPointIds[i] &&
                     r.ArrivalTourPointId == _tour.TourPointIds[i + 1]).FirstOrDefault().Price;
             TextBlockPrice.Text = $"{price}$";
+            
+            
+            TourRequestConditionTextBlock.Text = $"{ProjectResource.Instance.TourRequestsRep.Read().Count(tr=>tr.TourId == _tour.Id)}/{_tour.Bus.Capacity}";
         }
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -81,6 +98,7 @@ namespace TouristBusApp.UserControls
             HasChanges = true;
             _tour.TourPointIds.Remove((int) (sender as Button).DataContext);
             RefreshTourPoints();
+            RefreshPriceAndRequestsCondition();
         }
 
         private ComboBox CreateComboBoxForTourPoints()
@@ -95,7 +113,6 @@ namespace TouristBusApp.UserControls
         {
             try
             {
-                _tour.Name = TourNameTextBox.Text;
                 if (BusNumberComboBox.SelectedIndex != 0)
                 {
                     if (ProjectResource.Instance.ToursRep.Read().Any(t =>
@@ -118,8 +135,16 @@ namespace TouristBusApp.UserControls
                 if (ArrivalDatePicker.SelectedDate <= DepartureDatePicker.SelectedDate)
                     throw new Exception("Дата отправления и возвращения заданы некорректно!");
 
+                if (ProjectResource.Instance.TourRequestsRep.Read().Any(tr => tr.TourId == _tour.Id) &&
+                    MessageBox.Show("Изменение тура вызовет удаление всех заявок на этот тур", "Внимание!!!",
+                        MessageBoxButton.OKCancel) != MessageBoxResult.OK) return;
+
+                _tour.Name = TourNameTextBox.Text;
                 _tour.Departure = (DateTime) DepartureDatePicker.SelectedDate;
                 _tour.Arrival = (DateTime) ArrivalDatePicker.SelectedDate;
+
+                foreach (TourRequest tourRequest in ProjectResource.Instance.TourRequestsRep.Read())
+                    ProjectResource.Instance.TourRequestsRep.Delete(tourRequest.Id);
 
                 ProjectResource.Instance.ToursRep.Update(_tour);
                 HasChanges = false;
@@ -141,6 +166,7 @@ namespace TouristBusApp.UserControls
                 if (notUsed == null) throw new Exception("Все возможные точки тура уже добавлены!");
                 _tour.TourPointIds.Add(notUsed.Id);
                 RefreshTourPoints();
+                RefreshPriceAndRequestsCondition();
                 HasChanges = true;
             }
             catch (Exception exc)
@@ -166,6 +192,15 @@ namespace TouristBusApp.UserControls
 
         private void ArrivalDatePicker_OnSelectedDateChanged(object? sender, SelectionChangedEventArgs e)
         {
+            HasChanges = true;
+        }
+
+        private void TourPointComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            int tourPointIdsIndex = (int) comboBox.DataContext;
+            _tour.TourPointIds[tourPointIdsIndex] = ProjectResource.Instance.TourPointsRep.Read()
+                .FirstOrDefault(tp => tp.Name == comboBox.SelectedValue.ToString()).Id;
             HasChanges = true;
         }
     }

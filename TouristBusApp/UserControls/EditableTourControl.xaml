@@ -24,6 +24,12 @@
             </Border>
             <Border BorderBrush="Black" BorderThickness="1" Margin="5">
                 <StackPanel>
+                    <Label Content="Состояние заявок" />
+                    <TextBlock x:Name="TourRequestConditionTextBlock"/>
+                </StackPanel>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel>
                     <Label Content="Дата отправления" />
                     <DatePicker x:Name="DepartureDatePicker" SelectedDateChanged="DepartureDatePicker_OnSelectedDateChanged"/>
                 </StackPanel>
@@ -49,7 +55,7 @@
                                TextAlignment="Center" Foreground="Red" />
                 </StackPanel>
             </Border>
-            <Button Content="Сохранить" Click="ButtonSave_OnClick" Margin="5"/>
+            <Button x:Name="SaveButton" Content="Сохранить" Click="ButtonSave_OnClick" Margin="5"/>
         </StackPanel>
     </Border>
 </UserControl>

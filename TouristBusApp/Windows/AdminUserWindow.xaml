@@ -49,14 +49,14 @@
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Автобусы" Selector.Selected="BusTabItem_OnSelected">
+            <TabItem Header="Автобусы" Selector.Selected="BussesTabItem_OnSelected">
                 <ScrollViewer
                     VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Hidden">
                     <StackPanel x:Name="BusStackPanel" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Точки маршрутов туров" Selector.Selected="TourPointTabItem_OnSelected">
+            <TabItem Header="Точки маршрутов туров" Selector.Selected="TourPointsTabItem_OnSelected">
                 <DockPanel LastChildFill="True">
                     <Button
                         DockPanel.Dock="Top"
@@ -71,7 +71,14 @@
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Дороги"></TabItem>
+            <TabItem Header="Дороги" Selector.Selected="RoadsTabItem_OnSelected">
+                <FlowDocument>
+                    <Table x:Name="RoadsTable" CellSpacing="15"/>
+                    <BlockUIContainer>
+                        <Button Content="Сохранить" Click="SaveRoadsButton_OnClick"/>
+                    </BlockUIContainer>
+                </FlowDocument>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>
