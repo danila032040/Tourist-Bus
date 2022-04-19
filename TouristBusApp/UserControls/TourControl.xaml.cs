@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -54,26 +55,37 @@ namespace TouristBusApp.UserControls
 
         private void ButtonSubscribe_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ProjectResource.Instance.TourRequestsRep.Read()
-                .Any(tr => tr.TourId == _tour.Id && tr.UserId == _signedInUser.Id))
+            try
             {
-                foreach (TourRequest tr in ProjectResource.Instance.TourRequestsRep.Read()
-                             .Where(tr => tr.TourId == _tour.Id && tr.UserId == _signedInUser.Id))
-                    ProjectResource.Instance.TourRequestsRep.Delete(tr.Id);
-                SubscribeButton.Content = "Подписаться";
-            }
-            else
-            {
-                ProjectResource.Instance.TourRequestsRep.Create(new TourRequest
-                {
-                    TourId = _tour.Id,
-                    UserId = _signedInUser.Id
-                });
-                SubscribeButton.Content = "Отписаться";
-            }
+                if (_tour.Bus.Capacity <=
+                    ProjectResource.Instance.TourRequestsRep.Read().Count(tr => tr.TourId == _tour.Id))
+                    throw new Exception("Невозможно подписаться, так как не хватает мест!!!");
 
-            TourRequestConditionTextBlock.Text =
-                $"{ProjectResource.Instance.TourRequestsRep.Read().Count(tr => tr.TourId == _tour.Id)}/{_tour.Bus.Capacity}";
+                if (ProjectResource.Instance.TourRequestsRep.Read()
+                    .Any(tr => tr.TourId == _tour.Id && tr.UserId == _signedInUser.Id))
+                {
+                    foreach (TourRequest tr in ProjectResource.Instance.TourRequestsRep.Read()
+                                 .Where(tr => tr.TourId == _tour.Id && tr.UserId == _signedInUser.Id))
+                        ProjectResource.Instance.TourRequestsRep.Delete(tr.Id);
+                    SubscribeButton.Content = "Подписаться";
+                }
+                else
+                {
+                    ProjectResource.Instance.TourRequestsRep.Create(new TourRequest
+                    {
+                        TourId = _tour.Id,
+                        UserId = _signedInUser.Id
+                    });
+                    SubscribeButton.Content = "Отписаться";
+                }
+
+                TourRequestConditionTextBlock.Text =
+                    $"{ProjectResource.Instance.TourRequestsRep.Read().Count(tr => tr.TourId == _tour.Id)}/{_tour.Bus.Capacity}";
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
     }
 }
