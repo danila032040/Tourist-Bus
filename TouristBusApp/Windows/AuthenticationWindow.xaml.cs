@@ -1,4 +1,3 @@
-using System;
 using System.Windows;
 using TouristBusApp.Models;
 using TouristBusApp.Resources;
@@ -17,7 +16,7 @@ namespace TouristBusApp.Windows
             Window window = new LoginWindow();
             window.Owner = this;
             if (window.ShowDialog() != true) return;
-            
+
             if (ProjectResource.Instance.Authentication.GetSignedInUser().Role == UserRole.Admin)
             {
                 Application.Current.MainWindow = new AdminUserWindow();
@@ -37,7 +36,7 @@ namespace TouristBusApp.Windows
             Window window = new RegisterWindow();
             window.Owner = this;
             if (window.ShowDialog() != true) return;
-            
+
             if (ProjectResource.Instance.Authentication.GetSignedInUser().Role == UserRole.Admin)
             {
                 Application.Current.MainWindow = new AdminUserWindow();

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:userControls="clr-namespace:TouristBusApp.UserControls"
         mc:Ignorable="d"
         Title="Окно администратора"
         MinHeight="900"
@@ -73,9 +72,9 @@
             </TabItem>
             <TabItem Header="Дороги" Selector.Selected="RoadsTabItem_OnSelected">
                 <FlowDocument>
-                    <Table x:Name="RoadsTable" CellSpacing="15"/>
+                    <Table x:Name="RoadsTable" CellSpacing="15" />
                     <BlockUIContainer>
-                        <Button Content="Сохранить" Click="SaveRoadsButton_OnClick"/>
+                        <Button Content="Сохранить" Click="SaveRoadsButton_OnClick" />
                     </BlockUIContainer>
                 </FlowDocument>
             </TabItem>

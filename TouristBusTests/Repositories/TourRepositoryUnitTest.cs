@@ -53,7 +53,7 @@ namespace TouristBusTests.Repositories
             var ToursInFile = JsonConvert.DeserializeObject<List<Tour>>(json);
 
             Assert.Equal(ToursInFile.Count, ToursInRep.Count);
-            for (var i = 0; i < ToursInFile.Count; ++i) Assert.Equal(ToursInFile[0], ToursInRep[0]);
+            for (int i = 0; i < ToursInFile.Count; ++i) Assert.Equal(ToursInFile[0], ToursInRep[0]);
         }
 
         [Fact]

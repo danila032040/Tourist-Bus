@@ -51,7 +51,7 @@ namespace TouristBusTests.Repositories
             var RoadsInFile = JsonConvert.DeserializeObject<List<Road>>(json);
 
             Assert.Equal(RoadsInFile.Count, RoadsInRep.Count);
-            for (var i = 0; i < RoadsInFile.Count; ++i) Assert.Equal(RoadsInFile[0], RoadsInRep[0]);
+            for (int i = 0; i < RoadsInFile.Count; ++i) Assert.Equal(RoadsInFile[0], RoadsInRep[0]);
         }
 
         [Fact]

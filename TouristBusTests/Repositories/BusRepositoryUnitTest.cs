@@ -33,14 +33,14 @@ namespace TouristBusTests.Repositories
 
             IEnumerable<Bus> bussesFromRep = rep.Read();
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             using Stream stream = assembly.GetManifestResourceStream("TouristBusTests." + resourceName);
             using StreamReader streamReader = new(stream);
             var bussesFromJson = JsonConvert.DeserializeObject<IEnumerable<Bus>>(streamReader.ReadToEnd());
 
             Assert.Equal(bussesFromJson.Count(), bussesFromRep.Count());
 
-            for (var i = 0; i < bussesFromJson.Count(); ++i)
+            for (int i = 0; i < bussesFromJson.Count(); ++i)
                 Assert.Equal(bussesFromJson.ElementAt(i), bussesFromRep.ElementAt(i));
         }
 

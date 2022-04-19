@@ -32,26 +32,27 @@
             DockPanel.Dock="Top"
             Height="1"
             Background="Black" />
-        <StackPanel Orientation="Horizontal" 
+        <StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Top">
             <Label Content="Фильтрация" />
-            <Button Content="↑" Margin="5" Width="50"/>
+            <Button x:Name="ChangeSortOrderButton" Content="↑" Margin="5" Width="50"
+                    Click="ChangeSortOrderButton_OnClick" />
             <ComboBox Width="250" Margin="5" SelectedIndex="0" SelectionChanged="FilterComboBox_OnSelectionChanged">
                 <ComboBox.Items>
-                    <ComboBoxItem Content="Не выбрано"/>
-                    <ComboBoxItem Content="Название"/>
-                    <ComboBoxItem Content="Дата отправления"/>
-                    <ComboBoxItem Content="Дата прибитыия"/>
+                    <ComboBoxItem Content="Не выбрано" />
+                    <ComboBoxItem Content="Название" />
+                    <ComboBoxItem Content="Дата отправления" />
+                    <ComboBoxItem Content="Дата прибитыия" />
                 </ComboBox.Items>
             </ComboBox>
-            <Label Content="Доп. фильтры по городам" Margin="100 0 0 0"/>
+            <Label Content="Доп. фильтры по городам" Margin="100 0 0 0" />
             <StackPanel
                 x:Name="FiltersStackPanel"
-                Orientation="Horizontal">
-                
-            </StackPanel>
-            <Button Content="+" Width="50" Margin="5"/>
+                Orientation="Horizontal" />
+            <Button Content="+" Width="50" Margin="5" Click="FilterButton_OnClick"/>
         </StackPanel>
-        <StackPanel x:Name="TourStackPanel"/>
+        <ScrollViewer>
+            <StackPanel x:Name="TourStackPanel" />
+        </ScrollViewer>
     </DockPanel>
 </Window>

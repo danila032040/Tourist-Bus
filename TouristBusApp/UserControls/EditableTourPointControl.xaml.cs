@@ -8,21 +8,23 @@ namespace TouristBusApp.UserControls
 {
     public partial class EditableTourPointControl : UserControl
     {
-        private TourPoint _tourPoint;
-        private bool HasChanges
-        {
-            get => TextBlockSaveRequired.IsVisible;
-            set => TextBlockSaveRequired.Visibility = value ? Visibility.Visible : Visibility.Hidden;
-        }
+        private readonly TourPoint _tourPoint;
+
         public EditableTourPointControl(TourPoint tourPoint)
         {
             InitializeComponent();
             _tourPoint = tourPoint;
 
-            
+
             TourPointNameTextBox.Text = _tourPoint.Name;
-            
+
             HasChanges = false;
+        }
+
+        private bool HasChanges
+        {
+            get => TextBlockSaveRequired.IsVisible;
+            set => TextBlockSaveRequired.Visibility = value ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void ButtonSave_OnClick(object sender, RoutedEventArgs e)
@@ -31,7 +33,7 @@ namespace TouristBusApp.UserControls
             {
                 _tourPoint.Name = TourPointNameTextBox.Text;
                 ProjectResource.Instance.TourPointsRep.Update(_tourPoint);
-                
+
                 HasChanges = false;
             }
             catch (Exception exc)

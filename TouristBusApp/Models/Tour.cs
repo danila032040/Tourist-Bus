@@ -40,10 +40,10 @@ namespace TouristBusApp.Models
         {
             return Id == other.Id &&
                    Name == other.Name &&
-                   (Bus == null && other.Bus == null || Bus.Equals(other.Bus)) &&
+                   ((Bus == null && other.Bus == null) || Bus.Equals(other.Bus)) &&
                    Departure.Equals(other.Departure) &&
                    Arrival.Equals(other.Arrival) &&
-                   (TourPointIds == null && other.TourPointIds == null ||
+                   ((TourPointIds == null && other.TourPointIds == null) ||
                     TourPointIds.SequenceEqual(other.TourPointIds));
         }
 

@@ -54,13 +54,13 @@ namespace TouristBusApp.Windows
             ToursStackPanel.Children.Clear();
             foreach (Tour tour in ProjectResource.Instance.ToursRep.Read())
             {
-                Button deleteButton = new Button
+                var deleteButton = new Button
                 {
                     Content = "X"
                 };
                 deleteButton.DataContext = tour.Id;
                 deleteButton.Click += DeleteTourButton_OnClick;
-                StackPanel sp = new StackPanel
+                var sp = new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -77,7 +77,7 @@ namespace TouristBusApp.Windows
             BusStackPanel.Children.Clear();
             foreach (Bus bus in ProjectResource.Instance.BussesRep.Read())
             {
-                StackPanel sp = new StackPanel
+                var sp = new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -93,13 +93,13 @@ namespace TouristBusApp.Windows
             TourPointsStackPanel.Children.Clear();
             foreach (TourPoint tourPoint in ProjectResource.Instance.TourPointsRep.Read())
             {
-                Button deleteButton = new Button
+                var deleteButton = new Button
                 {
                     Content = "X"
                 };
                 deleteButton.DataContext = tourPoint.Id;
                 deleteButton.Click += DeleteTourPointButton_OnClick;
-                StackPanel sp = new StackPanel
+                var sp = new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -124,7 +124,7 @@ namespace TouristBusApp.Windows
             RoadsTable.RowGroups[0].Rows.Add(new TableRow());
             RoadsTable.RowGroups[0].Rows.Add(new TableRow());
             RoadsTable.RowGroups[0].Rows.Add(new TableRow());
-            RoadsTable.RowGroups[0].Rows[0].Cells.Add(new TableCell() {ColumnSpan = 2});
+            RoadsTable.RowGroups[0].Rows[0].Cells.Add(new TableCell {ColumnSpan = 2});
             RoadsTable.RowGroups[0].Rows[1].Cells.Add(new TableCell());
             RoadsTable.RowGroups[0].Rows[1].Cells.Add(new TableCell(new Paragraph(new Run("Точки"))
                 {TextAlignment = TextAlignment.Center}));
@@ -164,7 +164,7 @@ namespace TouristBusApp.Windows
                     r.DepartureTourPointId == tps.ElementAt(0).Id &&
                     r.ArrivalTourPointId == tps.ElementAt(j - 2).Id);
                 RoadsTable.RowGroups[0].Rows[2].Cells[j].Blocks.Clear();
-                TextBox txtBlock = new TextBox()
+                var txtBlock = new TextBox
                 {
                     TextAlignment = TextAlignment.Center,
                     Text = road.Price.ToString(),
@@ -181,7 +181,7 @@ namespace TouristBusApp.Windows
                             r.DepartureTourPointId == tps.ElementAt(i - 2).Id &&
                             r.ArrivalTourPointId == tps.ElementAt(j - 1).Id);
                         RoadsTable.RowGroups[0].Rows[i].Cells[j].Blocks.Clear();
-                        TextBox txtBlock = new TextBox()
+                        var txtBlock = new TextBox
                         {
                             TextAlignment = TextAlignment.Center,
                             Text = road.Price.ToString(),
@@ -195,10 +195,10 @@ namespace TouristBusApp.Windows
         {
             IEnumerable<TourPoint> tps = ProjectResource.Instance.TourPointsRep.Read();
             IEnumerable<Road> rds = ProjectResource.Instance.RoadsRep.Read();
-            
+
             int n = tps.Count();
             int m = tps.Count();
-            
+
             for (int j = 3; j < m + 2; ++j)
             {
                 Road road = rds.FirstOrDefault(r =>
@@ -218,7 +218,8 @@ namespace TouristBusApp.Windows
                             r.DepartureTourPointId == tps.ElementAt(i - 2).Id &&
                             r.ArrivalTourPointId == tps.ElementAt(j - 1).Id);
                         road.Price = Convert.ToInt32(
-                            ((RoadsTable.RowGroups[0].Rows[i].Cells[j].Blocks.FirstBlock as BlockUIContainer).Child as TextBox)
+                            ((RoadsTable.RowGroups[0].Rows[i].Cells[j].Blocks.FirstBlock as BlockUIContainer)
+                                .Child as TextBox)
                             .Text);
                         ProjectResource.Instance.RoadsRep.Update(road);
                     }
@@ -233,11 +234,10 @@ namespace TouristBusApp.Windows
 
             int tourId = (int) (sender as Button).DataContext;
             ProjectResource.Instance.ToursRep.Delete(tourId);
-            foreach (TourRequest tourRequest in ProjectResource.Instance.TourRequestsRep.Read().Where(tr=>tr.TourId == tourId))
-            {
+            foreach (TourRequest tourRequest in ProjectResource.Instance.TourRequestsRep.Read()
+                         .Where(tr => tr.TourId == tourId))
                 ProjectResource.Instance.TourRequestsRep.Delete(tourRequest.Id);
-            }
-            
+
             RefreshTourStackPanel();
         }
 
@@ -250,9 +250,7 @@ namespace TouristBusApp.Windows
             ProjectResource.Instance.TourPointsRep.Delete(tourPointId);
             foreach (Road road in ProjectResource.Instance.RoadsRep.Read().Where(r =>
                          r.ArrivalTourPointId == tourPointId || r.DepartureTourPointId == tourPointId))
-            {
                 ProjectResource.Instance.RoadsRep.Delete(road.Id);
-            }
 
             RefreshTourPointsPanel();
         }

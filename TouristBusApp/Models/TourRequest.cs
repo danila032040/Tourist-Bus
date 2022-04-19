@@ -5,19 +5,19 @@ namespace TouristBusApp.Models
     public class TourRequest : IBaseEntity
     {
         /// <summary>
-        /// Уникальный идентификатор заявки на тур
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Пользователь подавший заявку
+        ///     Пользователь подавший заявку
         /// </summary>
         public int UserId { get; set; }
-    
+
         /// <summary>
-        /// Тур на который была подана заявка
+        ///     Тур на который была подана заявка
         /// </summary>
         public int TourId { get; set; }
+
+        /// <summary>
+        ///     Уникальный идентификатор заявки на тур
+        /// </summary>
+        public int Id { get; set; }
 
         protected bool Equals(TourRequest other)
         {
@@ -28,7 +28,7 @@ namespace TouristBusApp.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((TourRequest) obj);
+            return obj.GetType() == GetType() && Equals((TourRequest) obj);
         }
 
         public override int GetHashCode()

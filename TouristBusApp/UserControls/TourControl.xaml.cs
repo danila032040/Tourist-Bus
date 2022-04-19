@@ -9,8 +9,8 @@ namespace TouristBusApp.UserControls
 {
     public partial class TourControl : UserControl
     {
-        private Tour _tour;
-        private User _signedInUser;
+        private readonly User _signedInUser;
+        private readonly Tour _tour;
 
         public TourControl(Tour tour)
         {
@@ -30,7 +30,7 @@ namespace TouristBusApp.UserControls
             foreach (TourPoint point in
                      tour.TourPointIds.Select(tpId => tps.FirstOrDefault(tp => tp.Id == tpId)))
             {
-                TextBlock textBlock = new TextBlock();
+                var textBlock = new TextBlock();
                 textBlock.Text = point.Name;
                 TourPointsStackPanel.Children.Add(textBlock);
             }
@@ -54,20 +54,17 @@ namespace TouristBusApp.UserControls
 
         private void ButtonSubscribe_OnClick(object sender, RoutedEventArgs e)
         {
-
             if (ProjectResource.Instance.TourRequestsRep.Read()
                 .Any(tr => tr.TourId == _tour.Id && tr.UserId == _signedInUser.Id))
             {
                 foreach (TourRequest tr in ProjectResource.Instance.TourRequestsRep.Read()
                              .Where(tr => tr.TourId == _tour.Id && tr.UserId == _signedInUser.Id))
-                {
                     ProjectResource.Instance.TourRequestsRep.Delete(tr.Id);
-                }
                 SubscribeButton.Content = "Подписаться";
             }
             else
             {
-                ProjectResource.Instance.TourRequestsRep.Create(new TourRequest()
+                ProjectResource.Instance.TourRequestsRep.Create(new TourRequest
                 {
                     TourId = _tour.Id,
                     UserId = _signedInUser.Id

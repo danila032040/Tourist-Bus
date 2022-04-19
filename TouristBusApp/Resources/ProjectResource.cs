@@ -37,6 +37,11 @@ namespace TouristBusApp.Resources
         public readonly IRepository<TourPoint> TourPointsRep;
 
         /// <summary>
+        ///     Репозиторий заявок на туры
+        /// </summary>
+        public readonly IRepository<TourRequest> TourRequestsRep;
+
+        /// <summary>
         ///     Репозиторий туров
         /// </summary>
         public readonly IRepository<Tour> ToursRep;
@@ -45,11 +50,6 @@ namespace TouristBusApp.Resources
         ///     Репозиторий пользователей
         /// </summary>
         public readonly IRepository<User> UsersRep;
-
-        /// <summary>
-        /// Репозиторий заявок на туры
-        /// </summary>
-        public readonly IRepository<TourRequest> TourRequestsRep;
 
 
         public ProjectResource()
@@ -86,13 +86,13 @@ namespace TouristBusApp.Resources
                     Password = "admin",
                     Role = UserRole.Admin
                 });
-            
+
             if (TourPointsRep.Read().Count() == 0)
                 TourPointsRep.Create(new TourPoint
                 {
-                    Name="Стартовая станция \"Успех\""
+                    Name = "Стартовая станция \"Успех\""
                 });
-            
+
             #endregion
         }
 
@@ -126,10 +126,10 @@ namespace TouristBusApp.Resources
         ///     Путь на json файл дорог
         /// </summary>
         private string RoadsFileName => $@"{Directory.GetCurrentDirectory()}\Data\TourRoads.json";
-        
-        
+
+
         /// <summary>
-        /// Путь на json файл заявок
+        ///     Путь на json файл заявок
         /// </summary>
         private string TourRequestsFileName => $@"{Directory.GetCurrentDirectory()}\Data\TourRequests.json";
 
@@ -137,6 +137,5 @@ namespace TouristBusApp.Resources
         ///     Название файла ресурсов, содержащего автобусы
         /// </summary>
         private string BussesResourceName => "Resources.Busses.json";
-        
     }
 }

@@ -9,6 +9,7 @@ namespace TouristBusApp.Windows
     public partial class AddTourPointWindow : Window
     {
         private readonly TourPoint _tourPoint;
+
         public AddTourPointWindow()
         {
             InitializeComponent();
@@ -16,11 +17,11 @@ namespace TouristBusApp.Windows
 
             foreach (TourPoint tp in ProjectResource.Instance.TourPointsRep.Read())
             {
-                Label label = new Label
+                var label = new Label
                 {
                     Content = $"Стоимость дороги из и до {tp.Name}"
                 };
-                TextBox textBox = new TextBox()
+                var textBox = new TextBox
                 {
                     DataContext = tp
                 };
@@ -34,16 +35,17 @@ namespace TouristBusApp.Windows
             try
             {
                 _tourPoint.Name = TourPointNameTextBox.Text;
-                foreach (var element in DistanceToOtherTourPointsStackPanel.Children)
+                foreach (object? element in DistanceToOtherTourPointsStackPanel.Children)
                 {
                     if (element is not TextBox tb) continue;
                     if (string.IsNullOrEmpty(tb.Text) || !int.TryParse(tb.Text, out _))
-                        throw new Exception($"Необходимо задать дистанцию из и до {(tb.DataContext as TourPoint).Name}");
+                        throw new Exception(
+                            $"Необходимо задать дистанцию из и до {(tb.DataContext as TourPoint).Name}");
                 }
 
                 ProjectResource.Instance.TourPointsRep.Create(_tourPoint);
-                
-                foreach (var element in DistanceToOtherTourPointsStackPanel.Children)
+
+                foreach (object? element in DistanceToOtherTourPointsStackPanel.Children)
                 {
                     if (element is not TextBox tb) continue;
                     ProjectResource.Instance.RoadsRep.Create(new Road
@@ -51,13 +53,13 @@ namespace TouristBusApp.Windows
                         DepartureTourPointId = _tourPoint.Id,
                         ArrivalTourPointId = (tb.DataContext as TourPoint).Id,
                         Price = int.Parse(tb.Text)
-                    }); 
+                    });
                     ProjectResource.Instance.RoadsRep.Create(new Road
                     {
                         ArrivalTourPointId = _tourPoint.Id,
                         DepartureTourPointId = (tb.DataContext as TourPoint).Id,
                         Price = int.Parse(tb.Text)
-                    }); 
+                    });
                 }
 
                 DialogResult = true;
